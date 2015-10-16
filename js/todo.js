@@ -53,7 +53,7 @@ $(function(){
 	});
 
 	function renderCollectionStuff(collection, self){
-		var html;
+		var html = '';
 		collection.forEach(function(model){
 			html = html + '<tr id="'+model.get('id')+'">' +
                 '<td>' + model.get('description') + '</td>' +
