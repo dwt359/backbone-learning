@@ -31,7 +31,7 @@ $(function(){
 
 	$('#submit').click(function(){
 		var description = $('#description').val();
-		var completed = $('#completed').val();
+		var completed = 0;
 		var collection = todoView.collection;
 		var nextId = 1;
 		collection.forEach(function(model){
@@ -47,20 +47,34 @@ $(function(){
 			id: nextId
 		});
 		collection.push(newItem);
+        console.dir(collection);
+        console.dir(newItem);
+        collection.sync("create", newItem);
 		todoView.render();
 	});
 	
 	function renderCollectionStuff(collection, self){
 		var html;
 		collection.forEach(function(model){
-			html = html + '<tr id="'+model.get('id')+'"><td>' + model.get('description') + '</td><td>'+model.get('status')+'</td><td><button class="delete" data-id="'+model.get('id')+'">Delete</button></td></tr>';
+			html = html + '<tr id="'+model.get('id')+'">' +
+                '<td>' + model.get('description') + '</td>' +
+                '<td>' +
+                    '<select class="select-status '+model.get('id')+'">' +
+                        '<option value=0'+((model.get('status') == 0)?' selected':'')+'>Pending</option>' +
+                        '<option value=1'+((model.get('status') == 1)?' selected':'')+'>Completed</option>' +
+                    '</select>' +
+                '</td>' +
+                '<td><button class="delete" data-id="'+model.get('id')+'">Delete</button></td>' +
+            '</tr>';
 			self.$el.html(html);
 		});
 			$('.delete').click(function(e){
 				var button = $(e.currentTarget);
 				var id = button.attr('data-id');
 				var collection = todoView.collection;
-				collection.remove(id);
+				var item = collection.get(id);
+                collection.sync("delete", item);
+                collection.remove(id);
 				todoView.render();
 			});
 
