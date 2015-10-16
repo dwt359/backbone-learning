@@ -49,6 +49,7 @@ $(function(){
 		collection.push(newItem);
         collection.sync("create", newItem);
 		todoView.render();
+        $('#description').val('');
 	});
 
 	function renderCollectionStuff(collection, self){
