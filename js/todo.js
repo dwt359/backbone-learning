@@ -30,26 +30,32 @@ $(function(){
 	todoView.render();
 
 	$('#submit').click(function(){
-		var description = $('#description').val();
-		var completed = 0;
-		var collection = todoView.collection;
-		var nextId = 0;
-		collection.forEach(function(model){
-			var id = parseInt(model.get('id'));
-			if(id > nextId){
-				nextId = id;
-			}
-		});
-		nextId += 1;
-		var newItem = new ToDoItem({
-			description: description,
-			status: completed,
-			id: nextId
-		});
-		collection.push(newItem);
-        collection.sync("create", newItem);
-		todoView.render();
-        $('#description').val('');
+        var textbox = $('#description');
+        if(textbox.val() !== '') {
+            var description = textbox.val();
+            var completed = 0;
+            var collection = todoView.collection;
+            var nextId = 0;
+            collection.forEach(function (model) {
+                var id = parseInt(model.get('id'));
+                if (id > nextId) {
+                    nextId = id;
+                }
+            });
+            nextId += 1;
+            var newItem = new ToDoItem({
+                description: description,
+                status: completed,
+                id: nextId
+            });
+            collection.push(newItem);
+            collection.sync("create", newItem);
+            todoView.render();
+            textbox.val('');
+        }
+        else {
+            alert('Empty to-do list item not allowed.');
+        }
 	});
 
 	function renderCollectionStuff(collection, self){
