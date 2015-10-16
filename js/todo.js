@@ -65,8 +65,9 @@ $(function(){
                 '</td>' +
                 '<td><button class="delete" data-id="'+model.get('id')+'">Delete</button></td>' +
             '</tr>';
-			self.$el.html(html);
 		});
+        self.$el.html(html);
+
         $('.delete').click(function(e){
             var button = $(e.currentTarget);
             var id = button.attr('data-id');
