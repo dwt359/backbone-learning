@@ -33,7 +33,7 @@ $(function(){
 		var description = $('#description').val();
 		var completed = 0;
 		var collection = todoView.collection;
-		var nextId = 1;
+		var nextId = 0;
 		collection.forEach(function(model){
 			var id = parseInt(model.get('id'));
 			if(id > nextId){
@@ -47,12 +47,10 @@ $(function(){
 			id: nextId
 		});
 		collection.push(newItem);
-        console.dir(collection);
-        console.dir(newItem);
         collection.sync("create", newItem);
 		todoView.render();
 	});
-	
+
 	function renderCollectionStuff(collection, self){
 		var html;
 		collection.forEach(function(model){
@@ -68,15 +66,23 @@ $(function(){
             '</tr>';
 			self.$el.html(html);
 		});
-			$('.delete').click(function(e){
-				var button = $(e.currentTarget);
-				var id = button.attr('data-id');
-				var collection = todoView.collection;
-				var item = collection.get(id);
-                collection.sync("delete", item);
-                collection.remove(id);
-				todoView.render();
-			});
-
-	}
+        $('.delete').click(function(e){
+            var button = $(e.currentTarget);
+            var id = button.attr('data-id');
+            var collection = todoView.collection;
+            var item = collection.get(id);
+            collection.sync("delete", item);
+            collection.remove(id);
+            todoView.render();
+        });
+        $('.select-status').on('change', function(e){
+            var target = $(e.currentTarget);
+            var id = target.attr('class').replace('select-status', '').trim();
+            var val = target.val();
+            var collection = todoView.collection;
+            var item = collection.get(id);
+            item.set('status', val);
+            collection.sync("update", item);
+        });
+    }
 });
