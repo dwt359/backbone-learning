@@ -3,8 +3,8 @@ $(function(){
 	var ToDoItem = Backbone.Model.extend({});
 
 	var ToDoCollection = Backbone.Collection.extend({
-		url: 'getInitialTodo.php'
-	});	
+        localStorage: new Backbone.LocalStorage("ToDo")
+	});
 	
 	var TodoView = Backbone.View.extend({
 		el: $('#content'),
