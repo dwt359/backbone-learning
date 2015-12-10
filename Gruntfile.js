@@ -3,8 +3,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       build: {
-        src: 'js/todo.js',
-        dest: 'js/todo.min.js'
+        src: 'js/*.js',
+        dest: 'todo.min.js'
       }
     }
   });
